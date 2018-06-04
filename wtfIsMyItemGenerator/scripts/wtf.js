@@ -78,6 +78,7 @@ var WTF = (function() {
                 num = num * corpus[type].length
             }
             item = regex.exec( template );
+			item = item;
         }
         return num
     }
@@ -231,6 +232,7 @@ var WTF = (function() {
 
             regex.lastIndex = 0;
             item = regex.exec( idea );
+			item = item;
         }
 
         // Update output
