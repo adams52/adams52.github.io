@@ -25,6 +25,13 @@ var WTF = (function() {
     var regex;
     var dom;
 
+    var howmany;
+    var food;
+    var prepare;
+    var cook;
+    var condition;
+    var time;
+
     /*
       ------------------------------------------------------------
 
@@ -40,6 +47,13 @@ var WTF = (function() {
         templates = corpus.template;
         responses = corpus.response;
         headings = corpus.heading;
+
+        howmany = corpus.howmany
+        food = corpus.food
+        prepare = corpus.prepare
+        cook = corpus.cook
+        condition = corpus.condition
+        time = corpus.time
 
         delete corpus.template;
         delete corpus.response;
@@ -191,9 +205,11 @@ var WTF = (function() {
 
         var types = [];
 
-        for ( var type in corpus )
+        for ( var type in corpus ) {
+          types.push( type );
+        }
 
-            types.push( type );
+
 
         types = types.sort(function (a, b) {
             if (a.length == b.length) {
@@ -203,8 +219,11 @@ var WTF = (function() {
         })
 
         var content = '@(type)'.replace( 'type', types.join( '|' ) );
-
         regex = new RegExp( content, 'gi' );
+    }
+
+    function randomInt(min, max) {
+      return Math.floor((Math.random()*((max+1)-min))+min)
     }
 
     /*
@@ -217,10 +236,44 @@ var WTF = (function() {
 
     function generate() {
 
+      // formula: Take [number] [food], [1-2 action (prepare)] and then [1-2 action (cook)]. After [M. time], [0-2 actions (prepare)] [0-1 action (cook)] and [condition].
+      var numPrepares = randomInt(1, 2);
+      var numCooks = randomInt(1, 2);
+      var numPrepare2 = randomInt(0, 2);
+      var numCooks2 = randomInt(0, 1);
+
+      var idea = "Take @howmany @food, ";
+      for (var x = 0; x < numPrepares; x++) {
+        idea+= "@prepare ";
+      }
+      idea += "and then ";
+      for (var x = 0; x < numCooks; x++) {
+        idea+= "@cook ";
+      }
+      idea = idea.trim() + ". After @time, ";
+
+      var needsAnd = false;
+      for (var x = 0; x < numPrepare2; x++) {
+        needsAnd = true;
+        idea+= "@prepare ";
+      }
+
+      for (var x = 0; x < numCooks2; x++) {
+        needsAnd = true;
+        idea+= "@cook ";
+      }
+
+      if (needsAnd) {
+        idea+= "and ";
+      }
+
+      idea+= "@condition.";
+
         var type, text, part, iter = 0, // Safety mechanism
-            idea = randomItem( templates ),
-            item = regex.exec( idea ),
-            copy = cloneCorpus();
+          // idea = randomItem(cook),
+          // idea = randomItem( templates ),
+          item = regex.exec( idea ),
+          copy = cloneCorpus();
 
         while ( item && ++iter < 1000 ) {
 
@@ -232,7 +285,7 @@ var WTF = (function() {
 
             regex.lastIndex = 0;
             item = regex.exec( idea );
-			item = item;
+            item=item;
         }
 
         // Update output
