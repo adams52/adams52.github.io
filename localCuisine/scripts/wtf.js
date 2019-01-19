@@ -236,42 +236,9 @@ var WTF = (function() {
 
     function generate() {
 
-      // formula: Take [number] [food], [1-2 action (prepare)] and then [1-2 action (cook)]. After [M. time], [0-2 actions (prepare)] [0-1 action (cook)] and [condition].
-      var numPrepares = randomInt(1, 2);
-      var numCooks = randomInt(1, 2);
-      var numPrepare2 = randomInt(0, 2);
-      var numCooks2 = randomInt(0, 1);
-
-      var idea = "Take @howmany @food, ";
-      for (var x = 0; x < numPrepares; x++) {
-        idea+= "@prepare ";
-      }
-      idea += "and then ";
-      for (var x = 0; x < numCooks; x++) {
-        idea+= "@cook ";
-      }
-      idea = idea.trim() + ". After @time, ";
-
-      var needsAnd = false;
-      for (var x = 0; x < numPrepare2; x++) {
-        needsAnd = true;
-        idea+= "@prepare ";
-      }
-
-      for (var x = 0; x < numCooks2; x++) {
-        needsAnd = true;
-        idea+= "@cook ";
-      }
-
-      if (needsAnd) {
-        idea+= "and ";
-      }
-
-      idea+= "@condition.";
-
         var type, text, part, iter = 0, // Safety mechanism
           // idea = randomItem(cook),
-          // idea = randomItem( templates ),
+          idea = randomItem( templates ),
           item = regex.exec( idea ),
           copy = cloneCorpus();
 
