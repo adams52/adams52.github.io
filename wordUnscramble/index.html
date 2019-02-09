@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+  <link rel="stylesheet" href="../styles/mainSite.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    function callService() {
+      var start = Date.now();
+      var letters = $("#letters").val()
+      var data = {
+          letters : letters
+        };
+      $.ajax({
+         type: "GET",
+         url : "https://tyg3kod8t0.execute-api.us-east-1.amazonaws.com/prod/unscramble",
+         dataType: "json",
+         crossDomain: "true",
+         contentType: "application/json; charset=utf-8",
+         data: "letters=" + letters,
+
+
+         success: function (response) {
+           var answers = JSON.stringify(response);
+           var end = Date.now();
+           var totalTime = (end-start)/1000;
+           $("#response").html("Your query took: " + totalTime + "seconds. <br>" + answers);
+         },
+         error: function () {
+           // show an error message
+           alert("UnSuccessfull");
+         }});
+    }
+  </script>
+</head>
+<body>
+  <h1>Word Unscramble</h1>
+  <div id="content">
+    <form method="GET">
+      <input type="text" name="letters" id="letters" />
+      <input type="button" onclick="callService()" value="Submit" />
+    </form>
+  </div>
+  <div id="response">
+
+  </div>
+</body>
+</html>

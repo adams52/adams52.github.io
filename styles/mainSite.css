@@ -1,0 +1,23 @@
+body {
+  background-color: #F0F1EE;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1, #content {
+  text-align:center;
+}
+
+.content {
+  display:inline-block;
+  width:100%;
+}
+
+.left {
+  text-align:right;
+  width:49%;
+}
+
+.right {
+  text-align:left;
+  width:49%;
+}
