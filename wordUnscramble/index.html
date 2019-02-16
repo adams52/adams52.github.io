@@ -21,14 +21,23 @@
 
 
          success: function (response) {
-           var answers = JSON.stringify(response);
            var end = Date.now();
            var totalTime = (end-start)/1000;
-           $("#response").html("Your query took: " + totalTime + "seconds. <br>" + answers);
+           var answers = JSON.parse(response);
+           var output = "";
+           for (var key in answers) {
+             var results = answers[key];
+             output += key + " letter words: <br>";
+             for (var i = 0; i < results.length; i++) {
+               output += results[i] + "<br>";
+             }
+
+           }
+           $("#response").html("Your query took: " + totalTime + "seconds. <br>" + output);
          },
          error: function () {
            // show an error message
-           alert("UnSuccessfull");
+           alert("Unsuccessfull");
          }});
     }
   </script>
