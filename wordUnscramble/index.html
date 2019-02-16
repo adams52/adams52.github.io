@@ -27,13 +27,15 @@
            var output = "";
            for (var key in answers) {
              var results = answers[key];
-             output += key + " letter words: <br>";
+             output += "<p style='font-weight:bold;'>" + key + " letter words: </p>";
+             output += "<ul>";
              for (var i = 0; i < results.length; i++) {
-               output += results[i] + "<br>";
+               output += "<li>" + results[i] + "</li>";
              }
+             output += "</ul>";
 
            }
-           $("#response").html("Your query took: " + totalTime + "seconds. <br>" + output);
+           $("#response").html("<p>Your query took: " + totalTime + "seconds. </p>" + output);
          },
          error: function () {
            // show an error message
