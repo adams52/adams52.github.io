@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Test</title>
+  <title>Word Unscramble</title>
   <link rel="stylesheet" href="../styles/mainSite.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript">
@@ -25,17 +25,28 @@
            var totalTime = (end-start)/1000;
            var answers = JSON.parse(response);
            var output = "";
-           for (var key in answers) {
-             var results = answers[key];
-             output += "<p style='font-weight:bold;'>" + key + " letter words: </p>";
-             output += "<ul>";
-             for (var i = 0; i < results.length; i++) {
-               output += "<li>" + results[i] + "</li>";
-             }
-             output += "</ul>";
+           if (answers["error"] != null) {
+             output += "Error: " + answers["error"];
+           } else {
+             /*
+              * This isn't super great but I do it so I can put the longest words first
+             */
+             var keys = Object.keys(answers);
+             keys.sort(function(a, b){return b-a});
+             for (var x = 0; x < keys.length; x++) {
+               var key = keys[x];
+               var results = answers[key];
+               output += "<p style='font-weight:bold;'>" + key + " letter words: </p>";
+               output += "<ul>";
+               for (var i = 0; i < results.length; i++) {
+                 output += "<li>" + results[i] + "</li>";
+               }
+               output += "</ul>";
 
+             }
            }
-           $("#response").html("<p>Your query took: " + totalTime + "seconds. </p>" + output);
+
+           $("#response").html("<p>Your query took: " + totalTime + " seconds. </p><p>" + output + "</p>");
          },
          error: function () {
            // show an error message
